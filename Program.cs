@@ -318,7 +318,7 @@ namespace umfgcloud.programcaoiii.vendas.api
                 }
             });
 
-            app.MapDelete("/vendedores/{id}", (string id, ContextoVenda contexto) =>
+            app.MapDelete("/vendas/{id}", (string id, ContextoVenda contexto) =>
             {
                 try
                 {
