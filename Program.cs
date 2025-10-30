@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using umfgcloud.programcaoiii.vendas.api.Contexto;
 using umfgcloud.programcaoiii.vendas.api.DTO;
 using umfgcloud.programcaoiii.vendas.api.Entidades;
@@ -216,6 +217,34 @@ namespace umfgcloud.programcaoiii.vendas.api
                     return Results.BadRequest(ex.Message);
                 }
             });
+            app.MapGet("/vendas", (ContextoVenda contexto) =>
+            {
+                return  Results.Ok(contexto.Vendas.Include(x=>x.Cliente).Include(x=>x.Vendedor).Where(x=>x.IsAtivo).ToList());
+
+            });
+
+            app.MapGet("/vendas/{id}", (string id, ContextoVenda contexto) =>
+            {
+                try
+                {
+                    Guid idConvertido;
+                    if (!Guid.TryParse(id, out idConvertido))
+                    {
+                        return Results.BadRequest("id no formato inválido de GUID");
+                    }
+                    Venda? vendaVindoDoBanco = contexto.Vendas.Include(x=>x.Cliente).Include(x=>x.Vendedor).FirstOrDefault(x => x.Id == idConvertido && x.IsAtivo);
+                    if (vendaVindoDoBanco == null)
+                    {
+                        return Results.NotFound("Venda não Encontrado!!");
+                    }
+                    return Results.Ok(vendaVindoDoBanco);
+
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+            });
 
             app.MapPost("/vendas", ([FromBody] TransacaoDTO.TransacaoCapaRequest dto,
                 ContextoVenda contexto) =>
@@ -229,7 +258,14 @@ namespace umfgcloud.programcaoiii.vendas.api
                     if (cliente == null)
                         throw new InvalidOperationException("Cliente não cadastrado!");
 
-                    Venda venda = new Venda(cliente);
+                    Vendedor? vendedor = contexto
+                       .Vendedores
+                       .FirstOrDefault(x => x.Id == dto.IdVendedor && x.IsAtivo);
+
+                    if (vendedor == null)
+                        throw new InvalidOperationException("Vendedor não cadastrado!");
+
+                    Venda venda = new Venda(cliente,dto.IdVendedor,vendedor);
 
                     contexto.Vendas.Add(venda);
                     contexto.SaveChanges();
@@ -237,6 +273,72 @@ namespace umfgcloud.programcaoiii.vendas.api
                     return Results.Created($"vendas/{venda.Id}", venda);
                 }
                 catch (Exception ex) 
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+            });
+
+            app.MapPut("/vendas/{id}", (string idVenda, [FromBody] TransacaoDTO.TransacaoCapaRequest dto,
+                ContextoVenda contexto) =>
+            {
+                try
+                {
+                    Cliente? cliente = contexto
+                        .Clientes
+                        .FirstOrDefault(x => x.Id == dto.IdCliente && x.IsAtivo);
+
+                    if (cliente == null)
+                        throw new InvalidOperationException("Cliente não cadastrado!");
+
+                    Vendedor? vendedor = contexto
+                       .Vendedores
+                       .FirstOrDefault(x => x.Id == dto.IdVendedor && x.IsAtivo);
+                    Guid idConvertidoVenda;
+                    if (!Guid.TryParse(idVenda, out idConvertidoVenda))
+                    {
+                        return Results.BadRequest("id no formato inválido de GUID");
+                    }
+                    Venda? vendaVindoDoBanco = contexto.Vendas.FirstOrDefault(x => x.Id == idConvertidoVenda && x.IsAtivo);
+                    if (vendaVindoDoBanco == null)
+                    {
+                        return Results.NotFound("Venda não Encontrado!!");
+                    }
+                    vendaVindoDoBanco.AtualizarDataAtualizacao();
+                    vendaVindoDoBanco.Cliente= cliente;
+                    vendaVindoDoBanco.VendedorId = dto.IdVendedor;
+                    vendaVindoDoBanco.Vendedor = vendedor;
+                    contexto.Vendas.Update(vendaVindoDoBanco);
+                    contexto.SaveChanges();
+
+                    return Results.Ok(vendaVindoDoBanco);
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+            });
+
+            app.MapDelete("/vendedores/{id}", (string id, ContextoVenda contexto) =>
+            {
+                try
+                {
+                    Guid idConvertido;
+                    if (!Guid.TryParse(id, out idConvertido))
+                    {
+                        return Results.BadRequest("id no formato inválido de GUID");
+                    }
+                    Venda? vendaVindoDoBanco = contexto.Vendas.FirstOrDefault(x => x.Id == idConvertido && x.IsAtivo);
+                    if (vendaVindoDoBanco == null)
+                    {
+                        return Results.NotFound("Venda não Encontrado!!");
+                    }
+                    vendaVindoDoBanco.Inativar();
+                    contexto.Vendas.Update(vendaVindoDoBanco);
+                    contexto.SaveChanges();
+
+                    return Results.NoContent();
+                }
+                catch (Exception ex)
                 {
                     return Results.BadRequest(ex.Message);
                 }
@@ -379,12 +481,100 @@ namespace umfgcloud.programcaoiii.vendas.api
                     {
                         return Results.BadRequest("O Email não deve ser vazio");
                     }
+                    if(!Regex.IsMatch(dto.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                    {
+                        return Results.BadRequest("O email deve vir em um formato válido");
+                    }
+                    Vendedor? vendedorExistenteComEsseEmail = contexto.Vendedores.FirstOrDefault(x=>x.Email==dto.Email && x.IsAtivo);
+                    if (vendedorExistenteComEsseEmail != null)
+                    {
+                        return Results.BadRequest("Já existe um cliente cadastrado com esse e-mail!!");
+                    }
+                    Vendedor vendedorCriado = new Vendedor(dto.Nome, dto.Email, dto.Telefone);
+                    contexto.Vendedores.Add(vendedorCriado);
+                    contexto.SaveChanges();
+                    return Results.Ok(vendedorCriado);
                 }
                 catch(Exception ex)
                 {
-
+                    return Results.BadRequest(ex.Message);
                 }
             });
+            app.MapPut("/vendedores/{id}", (string id,VendedorDto dto, ContextoVenda contexto) =>
+            {
+                try
+                {
+
+                    if (string.IsNullOrWhiteSpace(dto.Nome))
+                    {
+                        return Results.BadRequest("O nome não deve ser vazio");
+                    }
+                    if (dto.Nome.Length < 3)
+                    {
+                        return Results.BadRequest("O nome do vendedor deve ter no mínimo 3 caracteres!!");
+                    }
+                    if (string.IsNullOrWhiteSpace(dto.Email))
+                    {
+                        return Results.BadRequest("O Email não deve ser vazio");
+                    }
+                    if (!Regex.IsMatch(dto.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                    {
+                        return Results.BadRequest("O Email deve vir em um formato válido");
+                    }
+                    Guid idConvertido;
+                    if (!Guid.TryParse(id, out idConvertido))
+                    {
+                        return Results.BadRequest("id no formato inválido de GUID");
+                    }
+                    Vendedor? vendedorExistenteComEsseEmail = contexto.Vendedores.FirstOrDefault(x => x.Email == dto.Email && x.IsAtivo);
+                    if (vendedorExistenteComEsseEmail != null)
+                    {
+                        return Results.BadRequest("Já existe um cliente cadastrado com esse e-mail!!");
+                    }
+                    Vendedor? vendedorVindoDoBanco = contexto.Vendedores.FirstOrDefault(x => x.Id == idConvertido && x.IsAtivo);
+                    if (vendedorVindoDoBanco == null)
+                    {
+                        return Results.NotFound("Vendedor não Encontrado!!");
+                    }
+                    vendedorVindoDoBanco.Nome = dto.Nome;
+                    vendedorVindoDoBanco.Email = dto.Email;
+                    vendedorVindoDoBanco.Telefone = dto.Telefone;
+                    contexto.Vendedores.Update(vendedorVindoDoBanco);
+                    contexto.SaveChanges();
+                    return Results.Ok(vendedorVindoDoBanco);
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+            });
+
+            app.MapDelete("/vendedores/{id}", (string id, ContextoVenda contexto) =>
+            {
+                try
+                {
+                    Guid idConvertido;
+                    if (!Guid.TryParse(id, out idConvertido))
+                    {
+                        return Results.BadRequest("id no formato inválido de GUID");
+                    }
+                    Vendedor? vendedorVindoDoBanco = contexto.Vendedores.FirstOrDefault(x => x.Id == idConvertido && x.IsAtivo);
+                    if (vendedorVindoDoBanco == null)
+                    {
+                        return Results.NotFound("Vendedor não Encontrado!!");
+                    }
+                    vendedorVindoDoBanco.Inativar();
+                    contexto.Vendedores.Update(vendedorVindoDoBanco);
+                    contexto.SaveChanges();
+
+                    return Results.NoContent();
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+            });
+
 
             app.Run();
         }

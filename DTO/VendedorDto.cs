@@ -15,7 +15,7 @@
         {
             Nome = nome;
             Email = email;
-            Telefone = telefone;
+            Telefone = telefone?? "";
         }
     }
 }

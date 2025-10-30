@@ -3,13 +3,13 @@
     public sealed class Venda : AbstractEntidade
     {
         //propriedades persistidas
-        public Cliente Cliente { get; private set; }
+        public Cliente Cliente { get;  set; }
         //id cliente??
         public ICollection<ItemVenda> Itens { get; private set; } = [];
 
-        public Guid VendedorId { get; private set; }
+        public Guid VendedorId { get;  set; }
         
-        public Vendedor Vendedor { get; private set; }
+        public Vendedor Vendedor { get;  set; }
 
         //propriedade calculada em tempo de execuçao
         public decimal Total => Itens.Sum(x => x.Total);
@@ -18,9 +18,10 @@
         private Venda() { }
 
         //usado em produção
-        public Venda(Cliente cliente)
+        public Venda(Cliente cliente,Guid vendedorId, Vendedor vendedor)
         {
             Cliente = cliente ?? throw new ArgumentNullException(nameof(cliente));
+            Vendedor = Vendedor ?? throw new ArgumentNullException(nameof(vendedor));
         }
 
         public void AdicionarItem(ItemVenda item)
