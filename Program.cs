@@ -353,7 +353,7 @@ namespace umfgcloud.programcaoiii.vendas.api
                     Vendedor? vendedorVindoDoBanco = contexto.Vendedores.FirstOrDefault(x => x.Id == idConvertido && x.IsAtivo);
                     if (vendedorVindoDoBanco == null)
                     {
-                        return Results.NotFound("Vendedore não Encontrado!!");
+                        return Results.NotFound("Vendedor não Encontrado!!");
                     }
                     return Results.Ok(vendedorVindoDoBanco);
 
@@ -361,6 +361,28 @@ namespace umfgcloud.programcaoiii.vendas.api
                 catch (Exception ex)
                 {
                     return Results.BadRequest(ex.Message);
+                }
+            });
+            app.MapPost("/vendedores", (VendedorDto dto, ContextoVenda contexto) =>
+            {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(dto.Nome))
+                    {
+                        return Results.BadRequest("O nome não deve ser vazio");
+                    }
+                    if (dto.Nome.Length < 3)
+                    {
+                        return Results.BadRequest("O nome do vendedor deve ter no mínimo 3 caracteres!!");
+                    }
+                    if (string.IsNullOrWhiteSpace(dto.Email))
+                    {
+                        return Results.BadRequest("O Email não deve ser vazio");
+                    }
+                }
+                catch(Exception ex)
+                {
+
                 }
             });
 
