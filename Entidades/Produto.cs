@@ -2,11 +2,11 @@
 {
     public sealed class Produto : AbstractEntidade
     {
-        public string EAN { get; private set; } = string.Empty;
-        public string Descricao { get; private set; } = string.Empty;
-        public decimal PrecoCompra { get; private set; } = decimal.Zero;
-        public decimal PrecoVenda { get; private set; } = decimal.Zero;
-        public decimal Estoque { get; private set; } = decimal.Zero;
+        public string EAN { get;  set; } = string.Empty;
+        public string Descricao { get;  set; } = string.Empty;
+        public decimal PrecoCompra { get;  set; } = decimal.Zero;
+        public decimal PrecoVenda { get;  set; } = decimal.Zero;
+        public decimal Estoque { get;  set; } = decimal.Zero;
 
         private Produto() { }
 

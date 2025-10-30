@@ -147,6 +147,75 @@ namespace umfgcloud.programcaoiii.vendas.api
                     return Results.BadRequest(ex.Message);
                 }
             });
+            app.MapPost("/produtos", (ProdutoDto dto, ContextoVenda contexto) =>
+            {
+                try
+                {
+                    Produto produtoASalvar = new Produto(dto.EAN, dto.Descricao, dto.PrecoCompra, dto.PrecoVenda,dto.Estoque);
+                    contexto.Produtos.Add(produtoASalvar);
+                    contexto.SaveChanges();
+                    return Results.Ok(produtoASalvar);
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+            });
+            app.MapPut("/produtos/{id}", (string id, ProdutoDto dto, ContextoVenda contexto) =>
+            {
+                try
+                {
+                    Guid idConvertido;
+                    if (!Guid.TryParse(id, out idConvertido))
+                    {
+                        return Results.BadRequest("id no formato inválido de GUID");
+                    }
+                    Produto? produtoVindoDoBanco = contexto.Produtos.FirstOrDefault(x => x.Id == idConvertido && x.IsAtivo);
+                    if (produtoVindoDoBanco == null)
+                    {
+                        return Results.NotFound("produto não Encontrado!!");
+                    }
+                    produtoVindoDoBanco.AtualizarDataAtualizacao();
+                    produtoVindoDoBanco.EAN = dto.EAN;
+                    produtoVindoDoBanco.Descricao = dto.Descricao;
+                    produtoVindoDoBanco.PrecoCompra= dto.PrecoCompra;
+                    produtoVindoDoBanco.PrecoVenda = dto.PrecoVenda;
+                    produtoVindoDoBanco.Estoque = dto.Estoque;
+                    contexto.Produtos.Update(produtoVindoDoBanco);
+                    contexto.SaveChanges();
+
+                    return Results.Ok(produtoVindoDoBanco);
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+            });
+            app.MapDelete("/produtos/{id}", (string id, ContextoVenda contexto) =>
+            {
+                try
+                {
+                    Guid idConvertido;
+                    if (!Guid.TryParse(id, out idConvertido))
+                    {
+                        return Results.BadRequest("id no formato inválido de GUID");
+                    }
+                    Produto? produtoVindoDoBanco = contexto.Produtos.FirstOrDefault(x => x.Id == idConvertido && x.IsAtivo);
+                    if (produtoVindoDoBanco == null)
+                    {
+                        return Results.NotFound("Produto não Encontrado!!");
+                    }
+                    produtoVindoDoBanco.Inativar();
+                    contexto.Produtos.Update(produtoVindoDoBanco);
+                    contexto.SaveChanges();
+
+                    return Results.NoContent();
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+            });
 
             app.MapPost("/vendas", ([FromBody] TransacaoDTO.TransacaoCapaRequest dto,
                 ContextoVenda contexto) =>

@@ -1,21 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace umfgcloud.programcaoiii.vendas.api.DTO
+﻿namespace umfgcloud.programcaoiii.vendas.api.DTO
 {
     public class ClienteDto
     {
         //[Required(ErrorMessage ="O nome é obrigatório")]
-        public string Nome { get; set; }
+        public string Nome { get; set; }=string.Empty;
         //[Required(ErrorMessage = "O Cpf é obrigatório")]
         //[MaxLength(11)]
         //validar formato ou tirar . e -
-        public string Cpf { get; set; }
+        public string Cpf { get; set; } = string.Empty;
         //[Required(ErrorMessage = "O Endereço é obrigatório")]
-        public string Endereco { get; set; }
+        public string Endereco { get; set; } = string.Empty;
         //[Required(ErrorMessage = "O telefone é obrigatório")]
-        public string Telefone { get; set; }
+        public string Telefone { get; set; }= string.Empty;
 
-        protected ClienteDto()
+        public ClienteDto()
         {
 
         }
