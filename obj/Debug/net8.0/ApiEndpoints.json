@@ -1,0 +1,114 @@
+[
+  {
+    "ContainingType": "umfgcloud.programcaoiii.vendas.api.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_1",
+    "RelativePath": "clientes",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[umfgcloud.programcaoiii.vendas.api.Entidades.Cliente, umfgcloud.programcaoiii.vendas.api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "umfgcloud.programcaoiii.vendas.api.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_2",
+    "RelativePath": "produtos",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[umfgcloud.programcaoiii.vendas.api.Entidades.Produto, umfgcloud.programcaoiii.vendas.api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "umfgcloud.programcaoiii.vendas.api.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_3",
+    "RelativePath": "vendas",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "umfgcloud.programcaoiii.vendas.api.DTO.TransacaoDTO\u002BTransacaoCapaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "umfgcloud.programcaoiii.vendas.api.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_4",
+    "RelativePath": "vendas/{idVenda}/itens",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idVenda",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "umfgcloud.programcaoiii.vendas.api.DTO.TransacaoDTO\u002BTransacaoItemRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "umfgcloud.programcaoiii.vendas.api.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_5",
+    "RelativePath": "vendas/{idVenda}/itens/{idItem}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idVenda",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "idItem",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  }
+]

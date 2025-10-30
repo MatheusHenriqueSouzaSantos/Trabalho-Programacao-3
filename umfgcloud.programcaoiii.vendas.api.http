@@ -1,0 +1,6 @@
+@umfgcloud.programcaoiii.vendas.api_HostAddress = http://localhost:5299
+
+GET {{umfgcloud.programcaoiii.vendas.api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

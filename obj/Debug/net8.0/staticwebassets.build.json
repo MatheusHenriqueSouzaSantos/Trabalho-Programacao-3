@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "lJk/5e95y2WxmlsE6HkEEXJ0pZ/uetqX/AjKxdZoVuI=",
+  "Source": "umfgcloud.programcaoiii.vendas.api",
+  "BasePath": "_content/umfgcloud.programcaoiii.vendas.api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
