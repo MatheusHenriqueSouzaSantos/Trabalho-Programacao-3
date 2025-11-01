@@ -168,6 +168,10 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("ID");
 
+                    b.Property<Guid>("ClienteId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("ID_CLIENTE");
+
                     b.Property<DateTime>("DataAtualizacao")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("DT_ATUALIZACAO");
@@ -176,18 +180,62 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
                         .HasColumnType("datetime(6)")
                         .HasColumnName("DT_CRIACAO");
 
-                    b.Property<Guid>("ID_CLIENTE")
+                    b.Property<bool>("IsAtivo")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("IN_ATIVO");
+
+                    b.Property<Guid>("VendedorId")
                         .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("VendedorId");
+
+                    b.ToTable("VENDA", (string)null);
+                });
+
+            modelBuilder.Entity("umfgcloud.programcaoiii.vendas.api.Entidades.Vendedor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("ID");
+
+                    b.Property<DateTime>("DataAtualizacao")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("DT_ATUALIZACAO");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("DT_CRIACAO");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("EMAIL");
 
                     b.Property<bool>("IsAtivo")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("IN_ATIVO");
 
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("NM_VENDEDOR");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)")
+                        .HasColumnName("NR_TELEFONE");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ID_CLIENTE");
-
-                    b.ToTable("VENDA", (string)null);
+                    b.ToTable("Vendedores");
                 });
 
             modelBuilder.Entity("umfgcloud.programcaoiii.vendas.api.Entidades.ItemVenda", b =>
@@ -210,11 +258,19 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
                 {
                     b.HasOne("umfgcloud.programcaoiii.vendas.api.Entidades.Cliente", "Cliente")
                         .WithMany()
-                        .HasForeignKey("ID_CLIENTE")
+                        .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("umfgcloud.programcaoiii.vendas.api.Entidades.Vendedor", "Vendedor")
+                        .WithMany()
+                        .HasForeignKey("VendedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Cliente");
+
+                    b.Navigation("Vendedor");
                 });
 
             modelBuilder.Entity("umfgcloud.programcaoiii.vendas.api.Entidades.Venda", b =>

@@ -28,7 +28,7 @@ namespace umfgcloud.programcaoiii.vendas.api
 
             app.MapGet("/clientes", (ContextoVenda contexto) => 
             { 
-                return contexto.Clientes.ToList();
+                return contexto.Clientes.Where(x=>x.IsAtivo).ToList();
             });
             app.MapGet("/clientes/{id}", (string id, ContextoVenda contexto) =>
             {
@@ -152,6 +152,18 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
+                    if (dto.PrecoCompra < 0)
+                    {
+                        return Results.BadRequest("O preço de Compra não pode ser negativo!!!");
+                    }
+                    if (dto.PrecoVenda < 0)
+                    {
+                        return Results.BadRequest("O preço de venda não pode ser negativo!!!");
+                    }
+                    if (dto.Estoque < 0)
+                    {
+                        return Results.BadRequest("A quantidade em estoque não pode ser negativo!!!");
+                    }
                     Produto produtoASalvar = new Produto(dto.EAN, dto.Descricao, dto.PrecoCompra, dto.PrecoVenda,dto.Estoque);
                     contexto.Produtos.Add(produtoASalvar);
                     contexto.SaveChanges();
@@ -170,6 +182,18 @@ namespace umfgcloud.programcaoiii.vendas.api
                     if (!Guid.TryParse(id, out idConvertido))
                     {
                         return Results.BadRequest("id no formato inválido de GUID");
+                    }
+                    if (dto.PrecoCompra < 0)
+                    {
+                        return Results.BadRequest("O preço de Compra não pode ser negativo!!!");
+                    }
+                    if (dto.PrecoVenda < 0)
+                    {
+                        return Results.BadRequest("O preço de venda não pode ser negativo!!!");
+                    }
+                    if (dto.Estoque < 0)
+                    {
+                        return Results.BadRequest("A quantidade em estoque não pode ser negativo!!!");
                     }
                     Produto? produtoVindoDoBanco = contexto.Produtos.FirstOrDefault(x => x.Id == idConvertido && x.IsAtivo);
                     if (produtoVindoDoBanco == null)
@@ -220,7 +244,6 @@ namespace umfgcloud.programcaoiii.vendas.api
             app.MapGet("/vendas", (ContextoVenda contexto) =>
             {
                 return  Results.Ok(contexto.Vendas.Include(x=>x.Cliente).Include(x=>x.Vendedor).Where(x=>x.IsAtivo).ToList());
-
             });
 
             app.MapGet("/vendas/{id}", (string id, ContextoVenda contexto) =>
@@ -238,7 +261,6 @@ namespace umfgcloud.programcaoiii.vendas.api
                         return Results.NotFound("Venda não Encontrado!!");
                     }
                     return Results.Ok(vendaVindoDoBanco);
-
                 }
                 catch (Exception ex)
                 {
@@ -256,21 +278,21 @@ namespace umfgcloud.programcaoiii.vendas.api
                         .FirstOrDefault(x => x.Id == dto.IdCliente && x.IsAtivo);
 
                     if (cliente == null)
-                        throw new InvalidOperationException("Cliente não cadastrado!");
+                        return Results.NotFound("Cliente não cadastrado!");
 
                     Vendedor? vendedor = contexto
                        .Vendedores
                        .FirstOrDefault(x => x.Id == dto.IdVendedor && x.IsAtivo);
 
                     if (vendedor == null)
-                        throw new InvalidOperationException("Vendedor não cadastrado!");
+                        return Results.NotFound("Vendedor não cadastrado!");
 
-                    Venda venda = new Venda(cliente,dto.IdVendedor,vendedor);
+                    Venda vendaCriada = new Venda(dto.IdCliente,cliente,dto.IdVendedor,vendedor);
 
-                    contexto.Vendas.Add(venda);
+                    contexto.Vendas.Add(vendaCriada);
                     contexto.SaveChanges();
 
-                    return Results.Created($"vendas/{venda.Id}", venda);
+                    return Results.Created($"vendas/{vendaCriada.Id}", vendaCriada);
                 }
                 catch (Exception ex) 
                 {
@@ -278,7 +300,7 @@ namespace umfgcloud.programcaoiii.vendas.api
                 }
             });
 
-            app.MapPut("/vendas/{id}", (string idVenda, [FromBody] TransacaoDTO.TransacaoCapaRequest dto,
+            app.MapPut("/vendas/{id}", (string id, [FromBody] TransacaoDTO.TransacaoCapaRequest dto,
                 ContextoVenda contexto) =>
             {
                 try
@@ -288,29 +310,34 @@ namespace umfgcloud.programcaoiii.vendas.api
                         .FirstOrDefault(x => x.Id == dto.IdCliente && x.IsAtivo);
 
                     if (cliente == null)
-                        throw new InvalidOperationException("Cliente não cadastrado!");
+                        return Results.NotFound("Cliente não cadastrado!");
 
                     Vendedor? vendedor = contexto
                        .Vendedores
                        .FirstOrDefault(x => x.Id == dto.IdVendedor && x.IsAtivo);
+
+                    if (vendedor == null)
+                        return Results.NotFound("Vendedor não cadastrado!");
+
                     Guid idConvertidoVenda;
-                    if (!Guid.TryParse(idVenda, out idConvertidoVenda))
+                    if (!Guid.TryParse(id, out idConvertidoVenda))
                     {
                         return Results.BadRequest("id no formato inválido de GUID");
                     }
-                    Venda? vendaVindoDoBanco = contexto.Vendas.FirstOrDefault(x => x.Id == idConvertidoVenda && x.IsAtivo);
-                    if (vendaVindoDoBanco == null)
+                    Venda? vendaVindaDoBanco = contexto.Vendas.Include(x=>x.Cliente).Include(x=>x.Vendedor).FirstOrDefault(x => x.Id == idConvertidoVenda && x.IsAtivo);
+                    if (vendaVindaDoBanco == null)
                     {
                         return Results.NotFound("Venda não Encontrado!!");
                     }
-                    vendaVindoDoBanco.AtualizarDataAtualizacao();
-                    vendaVindoDoBanco.Cliente= cliente;
-                    vendaVindoDoBanco.VendedorId = dto.IdVendedor;
-                    vendaVindoDoBanco.Vendedor = vendedor;
-                    contexto.Vendas.Update(vendaVindoDoBanco);
+                    vendaVindaDoBanco.AtualizarDataAtualizacao();
+                    vendaVindaDoBanco.ClienteId = dto.IdCliente;
+                    vendaVindaDoBanco.Cliente= cliente;
+                    vendaVindaDoBanco.VendedorId = dto.IdVendedor;
+                    vendaVindaDoBanco.Vendedor = vendedor;
+                    contexto.Vendas.Update(vendaVindaDoBanco);
                     contexto.SaveChanges();
 
-                    return Results.Ok(vendaVindoDoBanco);
+                    return Results.Ok(vendaVindaDoBanco);
                 }
                 catch (Exception ex)
                 {
@@ -361,20 +388,20 @@ namespace umfgcloud.programcaoiii.vendas.api
                             .FirstOrDefault(x => x.Id == idVendaConvertido && x.IsAtivo);
 
                     if (venda == null)
-                        throw new InvalidOperationException("Venda não cadastrada!");
+                        return Results.NotFound("Venda não Encontrada!");
 
                     Produto? produto = contexto
                         .Produtos
                         .FirstOrDefault(x => x.Id == dto.IdProduto && x.IsAtivo);
 
                     if (produto == null)
-                        throw new InvalidOperationException("Produto não cadastrado!");
+                        return Results.NotFound("Produto não Encontrado!");
 
                     if (dto.Quantidade <= 0.0m)
-                        throw new InvalidOperationException("Quantidade informada inválida!");
+                        return Results.BadRequest("A quantidade do Produto não pode ser negativa!");
 
                     if (produto.Estoque - dto.Quantidade < 0.0m)
-                        throw new InvalidOperationException("Não há estoque suficiente para venda!");
+                        return Results.BadRequest("Não há estoque suficiente para venda!");
 
                     produto.AbaterEstoque(dto.Quantidade);
 
@@ -412,14 +439,14 @@ namespace umfgcloud.programcaoiii.vendas.api
                         .FirstOrDefault(x => x.Id == idVendaConvertido && x.IsAtivo);
 
                     if (venda == null)
-                        throw new InvalidOperationException("Venda não cadastrada!");
+                        return Results.NotFound("Venda não Encontrada!");
 
                     ItemVenda? itemVenda = venda
                         .Itens
                         .FirstOrDefault(x => x.Id == idItemVendaConvertido && x.IsAtivo);
 
                     if (itemVenda == null)
-                        throw new InvalidOperationException("Item de venda não cadastrado");
+                        return Results.NotFound("Item de venda não cadastrado");
 
                     itemVenda.Produto.AdicionarEstoque(itemVenda.Quantidade);
                     venda.RemoverItem(itemVenda);

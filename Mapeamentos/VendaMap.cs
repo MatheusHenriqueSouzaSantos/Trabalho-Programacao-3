@@ -19,8 +19,12 @@ namespace umfgcloud.programcaoiii.vendas.api.Mapeamentos
             builder
                 .HasOne(x => x.Cliente)
                 .WithMany()
-                .HasForeignKey("ID_CLIENTE")
+                .HasForeignKey(x=>x.ClienteId)
                 .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
+            builder.Property(x => x.ClienteId)
+                .HasColumnName("ID_CLIENTE")
                 .IsRequired();
 
             builder
@@ -28,12 +32,11 @@ namespace umfgcloud.programcaoiii.vendas.api.Mapeamentos
                 .WithOne()
                 .HasForeignKey("ID_VENDA")
                 .OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(x => x.Cliente)
+            builder.HasOne(x => x.Vendedor)
                 .WithMany()
                 .HasForeignKey(x => x.VendedorId)
                 .OnDelete(DeleteBehavior.Cascade);
             builder.Property(x => x.VendedorId)
-                .HasColumnType("varchar(255)")
                 .IsRequired();
         }
     }

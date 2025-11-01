@@ -3567,11 +3567,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\facec.lab04\\Downloads\\trabalhoProg\\aula-01-10-2025\\umfgcloud.programcaoiii.vendas.api\\umfgcloud.programcaoiii.vendas.api.csproj",
+      "projectUniqueName": "C:\\Users\\facec.lab04\\Desktop\\trabalhoProg\\Trabalho-Programacao-3\\umfgcloud.programcaoiii.vendas.api.csproj",
       "projectName": "umfgcloud.programcaoiii.vendas.api",
-      "projectPath": "C:\\Users\\facec.lab04\\Downloads\\trabalhoProg\\aula-01-10-2025\\umfgcloud.programcaoiii.vendas.api\\umfgcloud.programcaoiii.vendas.api.csproj",
+      "projectPath": "C:\\Users\\facec.lab04\\Desktop\\trabalhoProg\\Trabalho-Programacao-3\\umfgcloud.programcaoiii.vendas.api.csproj",
       "packagesPath": "C:\\Users\\facec.lab04\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\facec.lab04\\Downloads\\trabalhoProg\\aula-01-10-2025\\umfgcloud.programcaoiii.vendas.api\\obj\\",
+      "outputPath": "C:\\Users\\facec.lab04\\Desktop\\trabalhoProg\\Trabalho-Programacao-3\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

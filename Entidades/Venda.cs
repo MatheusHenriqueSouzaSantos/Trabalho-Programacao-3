@@ -4,6 +4,9 @@
     {
         //propriedades persistidas
         public Cliente Cliente { get;  set; }
+        
+        public Guid ClienteId { get; set; }
+
         //id cliente??
         public ICollection<ItemVenda> Itens { get; private set; } = [];
 
@@ -18,10 +21,13 @@
         private Venda() { }
 
         //usado em produção
-        public Venda(Cliente cliente,Guid vendedorId, Vendedor vendedor)
+        public Venda(Guid clienteId,Cliente cliente,Guid vendedorId, Vendedor vendedor)
         {
             Cliente = cliente ?? throw new ArgumentNullException(nameof(cliente));
-            Vendedor = Vendedor ?? throw new ArgumentNullException(nameof(vendedor));
+            Vendedor = vendedor ?? throw new ArgumentNullException(nameof(vendedor));
+            ClienteId = clienteId;
+            VendedorId = vendedorId;
+            
         }
 
         public void AdicionarItem(ItemVenda item)
