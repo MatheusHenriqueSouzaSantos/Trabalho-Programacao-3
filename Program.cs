@@ -281,7 +281,7 @@ namespace umfgcloud.programcaoiii.vendas.api
                     Venda? vendaVindoDoBanco = contexto.Vendas.Include(v=>v.Cliente).Include(v=>v.Vendedor).Include(v=>v.Itens).FirstOrDefault(v => v.Id == idVendaConvertido && v.IsAtivo);
                     if (vendaVindoDoBanco == null)
                     {
-                        return Results.NotFound("Venda não Encontrado!!");
+                        return Results.NotFound("Venda não Encontrada!!");
                     }
                     return Results.Ok(vendaVindoDoBanco);
                 }
@@ -350,7 +350,7 @@ namespace umfgcloud.programcaoiii.vendas.api
                     Venda? vendaVindaDoBanco = contexto.Vendas.Include(v=>v.Cliente).Include(v=>v.Vendedor).Include(v=>v.Itens).FirstOrDefault(x => x.Id == idVendaConvertido && x.IsAtivo);
                     if (vendaVindaDoBanco == null)
                     {
-                        return Results.NotFound("Venda não Encontrado!!");
+                        return Results.NotFound("Venda não Encontrada!!");
                     }
                     vendaVindaDoBanco.AtualizarDataAtualizacao();
                     vendaVindaDoBanco.ClienteId = dto.IdCliente;
@@ -380,7 +380,7 @@ namespace umfgcloud.programcaoiii.vendas.api
                     Venda? vendaVindoDoBanco = contexto.Vendas.FirstOrDefault(v => v.Id == idVendaConvertido && v.IsAtivo);
                     if (vendaVindoDoBanco == null)
                     {
-                        return Results.NotFound("Venda não Encontrado!!");
+                        return Results.NotFound("Venda não Encontrada!!");
                     }
                     vendaVindoDoBanco.Inativar();
                     vendaVindoDoBanco.AtualizarDataAtualizacao();
@@ -426,8 +426,8 @@ namespace umfgcloud.programcaoiii.vendas.api
                     if (produto == null)
                         return Results.NotFound("Produto não Encontrado!");
 
-                    if (dto.Quantidade < 0.0m)
-                        return Results.BadRequest("A quantidade do Produto não pode ser negativa!");
+                    if (dto.Quantidade <= 0.0m)
+                        return Results.BadRequest("A quantidade do produto deve ser maior que 0!");
 
                     if (produto.Estoque < dto.Quantidade )
                         return Results.BadRequest("Não há estoque suficiente para venda!");
@@ -444,7 +444,7 @@ namespace umfgcloud.programcaoiii.vendas.api
 
                     contexto.SaveChanges();
 
-                    return Results.Created($"vendas/{idVenda}", venda);
+                    return Results.Created($"vendas/{venda.Id}", venda);
                 }
                 catch (Exception ex) 
                 {
@@ -561,7 +561,7 @@ namespace umfgcloud.programcaoiii.vendas.api
                     Vendedor? vendedorExistenteComEsseEmail = contexto.Vendedores.FirstOrDefault(v=>v.Email==dto.Email && v.IsAtivo);
                     if (vendedorExistenteComEsseEmail != null)
                     {
-                        return Results.BadRequest("Já existe um cliente cadastrado com esse e-mail!!, o e-mail deve ser unico");
+                        return Results.BadRequest("Já existe um vendedor cadastrado com esse e-mail!!, o e-mail deve ser unico");
                     }
                     Vendedor vendedorCriado = new Vendedor(dto.Nome, dto.Email, dto.Telefone);
                     contexto.Vendedores.Add(vendedorCriado);
@@ -599,10 +599,10 @@ namespace umfgcloud.programcaoiii.vendas.api
                     {
                         return Results.BadRequest("id do vendedor no formato inválido de GUID");
                     }
-                    Vendedor? vendedorExistenteComEsseEmail = contexto.Vendedores.FirstOrDefault(v => v.Email == dto.Email && v.IsAtivo);
+                    Vendedor? vendedorExistenteComEsseEmail = contexto.Vendedores.FirstOrDefault(v => v.Email == dto.Email && v.Id!=idVendedorConvertido && v.IsAtivo);
                     if (vendedorExistenteComEsseEmail != null)
                     {
-                        return Results.BadRequest("Já existe um cliente cadastrado com esse e-mail!!, o e-mail deve ser unico");
+                        return Results.BadRequest("Já existe um vendedor cadastrado com esse e-mail!!, o e-mail deve ser unico");
                     }
                     Vendedor? vendedorVindoDoBanco = contexto.Vendedores.FirstOrDefault(v => v.Id == idVendedorConvertido && v.IsAtivo);
                     if (vendedorVindoDoBanco == null)

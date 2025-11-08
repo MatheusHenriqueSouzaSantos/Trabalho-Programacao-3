@@ -9,6 +9,9 @@ namespace umfgcloud.programcaoiii.vendas.api.Mapeamentos
         public override void Configure(EntityTypeBuilder<Vendedor> builder)
         {
             base.Configure(builder);
+
+            builder.ToTable("VENDEDOR");
+
             builder.Property(x => x.Nome)
                 .HasColumnName("NM_VENDEDOR")
                 .HasMaxLength(100)
