@@ -7,8 +7,7 @@
         
         public Guid ClienteId { get; set; }
 
-        //id cliente??
-        public ICollection<ItemVenda> Itens { get; private set; } = [];
+        public ICollection<ItemVenda> Itens { get;  set; } = new List<ItemVenda>();
 
         public Guid VendedorId { get;  set; }
         

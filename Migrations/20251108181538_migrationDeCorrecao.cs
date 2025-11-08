@@ -54,7 +54,7 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Vendedores",
+                name: "VENDEDOR",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "char(36)", nullable: false),
@@ -67,7 +67,7 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vendedores", x => x.ID);
+                    table.PrimaryKey("PK_VENDEDOR", x => x.ID);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -77,7 +77,7 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
                 {
                     ID = table.Column<Guid>(type: "char(36)", nullable: false),
                     ID_CLIENTE = table.Column<Guid>(type: "char(36)", nullable: false),
-                    VendedorId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    ID_VENDEDOR = table.Column<Guid>(type: "char(36)", nullable: false),
                     IN_ATIVO = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     DT_CRIACAO = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DT_ATUALIZACAO = table.Column<DateTime>(type: "datetime(6)", nullable: false)
@@ -92,11 +92,11 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_VENDA_Vendedores_VendedorId",
-                        column: x => x.VendedorId,
-                        principalTable: "Vendedores",
+                        name: "FK_VENDA_VENDEDOR_ID_VENDEDOR",
+                        column: x => x.ID_VENDEDOR,
+                        principalTable: "VENDEDOR",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -148,9 +148,9 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
                 column: "ID_CLIENTE");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VENDA_VendedorId",
+                name: "IX_VENDA_ID_VENDEDOR",
                 table: "VENDA",
-                column: "VendedorId");
+                column: "ID_VENDEDOR");
         }
 
         /// <inheritdoc />
@@ -169,7 +169,7 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
                 name: "CLIENTE");
 
             migrationBuilder.DropTable(
-                name: "Vendedores");
+                name: "VENDEDOR");
         }
     }
 }

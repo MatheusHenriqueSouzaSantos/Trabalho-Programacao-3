@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\facec.lab04\\Desktop\\trabalho\\Trabalho-Programacao-3\\umfgcloud.programcaoiii.vendas.api.csproj": {}
+    "C:\\Users\\mathe\\OneDrive\\Desktop\\SegundoTrabalhoProg3\\Trabalho-Programacao-3\\umfgcloud.programcaoiii.vendas.api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\facec.lab04\\Desktop\\trabalho\\Trabalho-Programacao-3\\umfgcloud.programcaoiii.vendas.api.csproj": {
+    "C:\\Users\\mathe\\OneDrive\\Desktop\\SegundoTrabalhoProg3\\Trabalho-Programacao-3\\umfgcloud.programcaoiii.vendas.api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\facec.lab04\\Desktop\\trabalho\\Trabalho-Programacao-3\\umfgcloud.programcaoiii.vendas.api.csproj",
+        "projectUniqueName": "C:\\Users\\mathe\\OneDrive\\Desktop\\SegundoTrabalhoProg3\\Trabalho-Programacao-3\\umfgcloud.programcaoiii.vendas.api.csproj",
         "projectName": "umfgcloud.programcaoiii.vendas.api",
-        "projectPath": "C:\\Users\\facec.lab04\\Desktop\\trabalho\\Trabalho-Programacao-3\\umfgcloud.programcaoiii.vendas.api.csproj",
-        "packagesPath": "C:\\Users\\facec.lab04\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\facec.lab04\\Desktop\\trabalho\\Trabalho-Programacao-3\\obj\\",
+        "projectPath": "C:\\Users\\mathe\\OneDrive\\Desktop\\SegundoTrabalhoProg3\\Trabalho-Programacao-3\\umfgcloud.programcaoiii.vendas.api.csproj",
+        "packagesPath": "C:\\Users\\mathe\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mathe\\OneDrive\\Desktop\\SegundoTrabalhoProg3\\Trabalho-Programacao-3\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\facec.lab04\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mathe\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -85,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

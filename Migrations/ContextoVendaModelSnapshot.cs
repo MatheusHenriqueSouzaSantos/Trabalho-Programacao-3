@@ -185,7 +185,8 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
                         .HasColumnName("IN_ATIVO");
 
                     b.Property<Guid>("VendedorId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("char(36)")
+                        .HasColumnName("ID_VENDEDOR");
 
                     b.HasKey("Id");
 
@@ -235,7 +236,7 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vendedores");
+                    b.ToTable("VENDEDOR", (string)null);
                 });
 
             modelBuilder.Entity("umfgcloud.programcaoiii.vendas.api.Entidades.ItemVenda", b =>
@@ -265,7 +266,7 @@ namespace umfgcloud.programcaoiii.vendas.api.Migrations
                     b.HasOne("umfgcloud.programcaoiii.vendas.api.Entidades.Vendedor", "Vendedor")
                         .WithMany()
                         .HasForeignKey("VendedorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cliente");
