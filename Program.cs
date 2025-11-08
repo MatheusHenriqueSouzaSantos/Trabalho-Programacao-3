@@ -41,12 +41,12 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idClienteConvertido;
+                    if (!Guid.TryParse(id, out idClienteConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id do cliente no formato inválido de GUID");
                     }
-                    Cliente? clienteVindoDoBanco = contexto.Clientes.FirstOrDefault(c => c.Id == idConvertido && c.IsAtivo);
+                    Cliente? clienteVindoDoBanco = contexto.Clientes.FirstOrDefault(c => c.Id == idClienteConvertido && c.IsAtivo);
                     if (clienteVindoDoBanco == null)
                     {
                         return Results.NotFound("Cliente não Encontrado!!");
@@ -77,12 +77,12 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idClienteConvertido;
+                    if (!Guid.TryParse(id, out idClienteConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id do cliente no formato inválido de GUID");
                     }
-                    Cliente? clienteVindoDoBanco = contexto.Clientes.FirstOrDefault(c => c.Id == idConvertido && c.IsAtivo);
+                    Cliente? clienteVindoDoBanco = contexto.Clientes.FirstOrDefault(c => c.Id == idClienteConvertido && c.IsAtivo);
                     if (clienteVindoDoBanco == null)
                     {
                         return Results.NotFound("Cliente não Encontrado!!");
@@ -106,12 +106,12 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idClienteConvertido;
+                    if (!Guid.TryParse(id, out idClienteConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id do cliente no formato inválido de GUID");
                     }
-                    Cliente? clienteVindoDoBanco = contexto.Clientes.FirstOrDefault(c => c.Id == idConvertido && c.IsAtivo);
+                    Cliente? clienteVindoDoBanco = contexto.Clientes.FirstOrDefault(c => c.Id == idClienteConvertido && c.IsAtivo);
                     if (clienteVindoDoBanco == null)
                     {
                         return Results.NotFound("Cliente não Encontrado!!");
@@ -145,12 +145,12 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idProdutoConvertido;
+                    if (!Guid.TryParse(id, out idProdutoConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id do produto no formato inválido de GUID");
                     }
-                    Produto? produtoVindoDoBanco = contexto.Produtos.FirstOrDefault(p => p.Id == idConvertido && p.IsAtivo);
+                    Produto? produtoVindoDoBanco = contexto.Produtos.FirstOrDefault(p => p.Id == idProdutoConvertido && p.IsAtivo);
                     if (produtoVindoDoBanco == null)
                     {
                         return Results.NotFound("produto não Encontrado!!");
@@ -193,10 +193,10 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idProdutoConvertido;
+                    if (!Guid.TryParse(id, out idProdutoConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id do produto no formato inválido de GUID");
                     }
                     if (dto.PrecoCompra < 0)
                     {
@@ -210,7 +210,7 @@ namespace umfgcloud.programcaoiii.vendas.api
                     {
                         return Results.BadRequest("A quantidade em estoque não pode ser negativo!!!");
                     }
-                    Produto? produtoVindoDoBanco = contexto.Produtos.FirstOrDefault(p => p.Id == idConvertido && p.IsAtivo);
+                    Produto? produtoVindoDoBanco = contexto.Produtos.FirstOrDefault(p => p.Id == idProdutoConvertido && p.IsAtivo);
                     if (produtoVindoDoBanco == null)
                     {
                         return Results.NotFound("produto não Encontrado!!");
@@ -235,12 +235,12 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idProdutoConvertido;
+                    if (!Guid.TryParse(id, out idProdutoConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id do produto no formato inválido de GUID");
                     }
-                    Produto? produtoVindoDoBanco = contexto.Produtos.FirstOrDefault(c => c.Id == idConvertido && c.IsAtivo);
+                    Produto? produtoVindoDoBanco = contexto.Produtos.FirstOrDefault(c => c.Id == idProdutoConvertido && c.IsAtivo);
                     if (produtoVindoDoBanco == null)
                     {
                         return Results.NotFound("Produto não Encontrado!!");
@@ -273,12 +273,12 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idVendaConvertido;
+                    if (!Guid.TryParse(id, out idVendaConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id da venda no formato inválido de GUID");
                     }
-                    Venda? vendaVindoDoBanco = contexto.Vendas.Include(v=>v.Cliente).Include(v=>v.Vendedor).Include(v=>v.Itens).FirstOrDefault(v => v.Id == idConvertido && v.IsAtivo);
+                    Venda? vendaVindoDoBanco = contexto.Vendas.Include(v=>v.Cliente).Include(v=>v.Vendedor).Include(v=>v.Itens).FirstOrDefault(v => v.Id == idVendaConvertido && v.IsAtivo);
                     if (vendaVindoDoBanco == null)
                     {
                         return Results.NotFound("Venda não Encontrado!!");
@@ -342,12 +342,12 @@ namespace umfgcloud.programcaoiii.vendas.api
                     if (vendedor == null)
                         return Results.NotFound("Vendedor não cadastrado!");
 
-                    Guid idConvertidoVenda;
-                    if (!Guid.TryParse(id, out idConvertidoVenda))
+                    Guid idVendaConvertido;
+                    if (!Guid.TryParse(id, out idVendaConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id da venda no formato inválido de GUID");
                     }
-                    Venda? vendaVindaDoBanco = contexto.Vendas.Include(v=>v.Cliente).Include(v=>v.Vendedor).Include(v=>v.Itens).FirstOrDefault(x => x.Id == idConvertidoVenda && x.IsAtivo);
+                    Venda? vendaVindaDoBanco = contexto.Vendas.Include(v=>v.Cliente).Include(v=>v.Vendedor).Include(v=>v.Itens).FirstOrDefault(x => x.Id == idVendaConvertido && x.IsAtivo);
                     if (vendaVindaDoBanco == null)
                     {
                         return Results.NotFound("Venda não Encontrado!!");
@@ -372,12 +372,12 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idVendaConvertido;
+                    if (!Guid.TryParse(id, out idVendaConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id da venda no formato inválido de GUID");
                     }
-                    Venda? vendaVindoDoBanco = contexto.Vendas.FirstOrDefault(v => v.Id == idConvertido && v.IsAtivo);
+                    Venda? vendaVindoDoBanco = contexto.Vendas.FirstOrDefault(v => v.Id == idVendaConvertido && v.IsAtivo);
                     if (vendaVindoDoBanco == null)
                     {
                         return Results.NotFound("Venda não Encontrado!!");
@@ -402,35 +402,34 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
-
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idVendaConvertido;
+                    if (!Guid.TryParse(idVenda, out idVendaConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id da venda no formato inválido de GUID");
                     }
-                    Guid idVendaConvertido = Guid.Parse(idVenda);
 
                     Venda? venda = contexto
                         .Vendas
-                            .Include(x => x.Cliente)
-                            .Include(x => x.Itens)
-                                .ThenInclude(x => x.Produto)
-                            .FirstOrDefault(x => x.Id == idVendaConvertido && x.IsAtivo);
+                            .Include(v => v.Cliente)
+                            .Include(v=>v.Vendedor)
+                            .Include(v => v.Itens)
+                                .ThenInclude(i => i.Produto)
+                            .FirstOrDefault(v => v.Id == idVendaConvertido && v.IsAtivo);
 
                     if (venda == null)
                         return Results.NotFound("Venda não Encontrada!");
 
                     Produto? produto = contexto
                         .Produtos
-                        .FirstOrDefault(x => x.Id == dto.IdProduto && x.IsAtivo);
+                        .FirstOrDefault(p => p.Id == dto.IdProduto && p.IsAtivo);
 
                     if (produto == null)
                         return Results.NotFound("Produto não Encontrado!");
 
-                    if (dto.Quantidade <= 0.0m)
+                    if (dto.Quantidade < 0.0m)
                         return Results.BadRequest("A quantidade do Produto não pode ser negativa!");
 
-                    if (produto.Estoque - dto.Quantidade < 0.0m)
+                    if (produto.Estoque < dto.Quantidade )
                         return Results.BadRequest("Não há estoque suficiente para venda!");
 
                     produto.AbaterEstoque(dto.Quantidade);
@@ -458,15 +457,25 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
-                    Guid idVendaConvertido = Guid.Parse(idVenda);
-                    Guid idItemVendaConvertido = Guid.Parse(idItem);
+                    Guid idVendaConvertido;
+                    Guid idItemVendaConvertido;
+
+                    if(!Guid.TryParse(idVenda, out idVendaConvertido))
+                    {
+                        return Results.BadRequest("id da venda no formato inválido de GUID");
+                    }
+                    if (!Guid.TryParse(idItem, out idItemVendaConvertido))
+                    {
+                        return Results.BadRequest("id do item venda no formato inválido de GUID");
+                    }
 
                     Venda? venda = contexto
                         .Vendas
-                        .Include(x => x.Cliente)
-                        .Include(x => x.Itens)
-                            .ThenInclude(x => x.Produto)
-                        .FirstOrDefault(x => x.Id == idVendaConvertido && x.IsAtivo);
+                        .Include(v => v.Cliente)
+                        .Include(v=>v.Vendedor)
+                        .Include(v => v.Itens)
+                            .ThenInclude(i => i.Produto)
+                        .FirstOrDefault(v => v.Id == idVendaConvertido && v.IsAtivo);
 
                     if (venda == null)
                         return Results.NotFound("Venda não Encontrada!");
@@ -497,19 +506,26 @@ namespace umfgcloud.programcaoiii.vendas.api
 
             app.MapGet("/vendedores", (ContextoVenda contexto) =>
             {
-                return contexto.Vendedores.Where(x=>x.IsAtivo).ToList();
+                try
+                {
+                    return Results.Ok(contexto.Vendedores.Where(x=>x.IsAtivo).ToList());
+                }
+                catch(Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
             });
 
             app.MapGet("/vendedores/{id}", (string id, ContextoVenda contexto) =>
             {
                 try
                 {
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idVendedorConvertido;
+                    if (!Guid.TryParse(id, out idVendedorConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id do vendedor no formato inválido de GUID");
                     }
-                    Vendedor? vendedorVindoDoBanco = contexto.Vendedores.FirstOrDefault(x => x.Id == idConvertido && x.IsAtivo);
+                    Vendedor? vendedorVindoDoBanco = contexto.Vendedores.FirstOrDefault(v => v.Id == idVendedorConvertido && v.IsAtivo);
                     if (vendedorVindoDoBanco == null)
                     {
                         return Results.NotFound("Vendedor não Encontrado!!");
@@ -542,15 +558,15 @@ namespace umfgcloud.programcaoiii.vendas.api
                     {
                         return Results.BadRequest("O email deve vir em um formato válido");
                     }
-                    Vendedor? vendedorExistenteComEsseEmail = contexto.Vendedores.FirstOrDefault(x=>x.Email==dto.Email && x.IsAtivo);
+                    Vendedor? vendedorExistenteComEsseEmail = contexto.Vendedores.FirstOrDefault(v=>v.Email==dto.Email && v.IsAtivo);
                     if (vendedorExistenteComEsseEmail != null)
                     {
-                        return Results.BadRequest("Já existe um cliente cadastrado com esse e-mail!!");
+                        return Results.BadRequest("Já existe um cliente cadastrado com esse e-mail!!, o e-mail deve ser unico");
                     }
                     Vendedor vendedorCriado = new Vendedor(dto.Nome, dto.Email, dto.Telefone);
                     contexto.Vendedores.Add(vendedorCriado);
                     contexto.SaveChanges();
-                    return Results.Ok(vendedorCriado);
+                    return Results.Created($"/vendedores/{vendedorCriado.Id}",vendedorCriado);
                 }
                 catch(Exception ex)
                 {
@@ -578,21 +594,22 @@ namespace umfgcloud.programcaoiii.vendas.api
                     {
                         return Results.BadRequest("O Email deve vir em um formato válido");
                     }
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idVendedorConvertido;
+                    if (!Guid.TryParse(id, out idVendedorConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id do vendedor no formato inválido de GUID");
                     }
-                    Vendedor? vendedorExistenteComEsseEmail = contexto.Vendedores.FirstOrDefault(x => x.Email == dto.Email && x.IsAtivo);
+                    Vendedor? vendedorExistenteComEsseEmail = contexto.Vendedores.FirstOrDefault(v => v.Email == dto.Email && v.IsAtivo);
                     if (vendedorExistenteComEsseEmail != null)
                     {
-                        return Results.BadRequest("Já existe um cliente cadastrado com esse e-mail!!");
+                        return Results.BadRequest("Já existe um cliente cadastrado com esse e-mail!!, o e-mail deve ser unico");
                     }
-                    Vendedor? vendedorVindoDoBanco = contexto.Vendedores.FirstOrDefault(x => x.Id == idConvertido && x.IsAtivo);
+                    Vendedor? vendedorVindoDoBanco = contexto.Vendedores.FirstOrDefault(v => v.Id == idVendedorConvertido && v.IsAtivo);
                     if (vendedorVindoDoBanco == null)
                     {
                         return Results.NotFound("Vendedor não Encontrado!!");
                     }
+                    vendedorVindoDoBanco.AtualizarDataAtualizacao();
                     vendedorVindoDoBanco.Nome = dto.Nome;
                     vendedorVindoDoBanco.Email = dto.Email;
                     vendedorVindoDoBanco.Telefone = dto.Telefone;
@@ -610,16 +627,17 @@ namespace umfgcloud.programcaoiii.vendas.api
             {
                 try
                 {
-                    Guid idConvertido;
-                    if (!Guid.TryParse(id, out idConvertido))
+                    Guid idVendedorConvertido;
+                    if (!Guid.TryParse(id, out idVendedorConvertido))
                     {
-                        return Results.BadRequest("id no formato inválido de GUID");
+                        return Results.BadRequest("id do vendedor no formato inválido de GUID");
                     }
-                    Vendedor? vendedorVindoDoBanco = contexto.Vendedores.FirstOrDefault(x => x.Id == idConvertido && x.IsAtivo);
+                    Vendedor? vendedorVindoDoBanco = contexto.Vendedores.FirstOrDefault(v => v.Id == idVendedorConvertido && v.IsAtivo);
                     if (vendedorVindoDoBanco == null)
                     {
                         return Results.NotFound("Vendedor não Encontrado!!");
                     }
+                    vendedorVindoDoBanco.AtualizarDataAtualizacao();
                     vendedorVindoDoBanco.Inativar();
                     contexto.Vendedores.Update(vendedorVindoDoBanco);
                     contexto.SaveChanges();
