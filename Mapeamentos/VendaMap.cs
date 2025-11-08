@@ -35,8 +35,9 @@ namespace umfgcloud.programcaoiii.vendas.api.Mapeamentos
             builder.HasOne(x => x.Vendedor)
                 .WithMany()
                 .HasForeignKey(x => x.VendedorId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
             builder.Property(x => x.VendedorId)
+                .HasColumnName("ID_VENDEDOR")
                 .IsRequired();
         }
     }

@@ -5,7 +5,7 @@
         public sealed class TransacaoCapaRequest
         {
             public Guid IdCliente { get; set; } = Guid.Empty;
-
+            //validar Guid??
             public Guid IdVendedor { get; set; } = Guid.Empty;
         }
 
