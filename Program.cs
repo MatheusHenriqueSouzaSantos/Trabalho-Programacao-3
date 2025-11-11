@@ -67,7 +67,7 @@ namespace umfgcloud.programcaoiii.vendas.api
                     Cliente clienteASalvar = new Cliente(dto.Nome,dto.Cpf,dto.Endereco,dto.Telefone);
                     contexto.Clientes.Add(clienteASalvar);
                     contexto.SaveChanges();
-                    return Results.Ok(clienteASalvar);
+                    return Results.Created($"/clientes/{clienteASalvar.Id}", clienteASalvar);
                 }
                 catch (Exception ex)
                 {
@@ -183,7 +183,7 @@ namespace umfgcloud.programcaoiii.vendas.api
                     Produto produtoASalvar = new Produto(dto.EAN, dto.Descricao, dto.PrecoCompra, dto.PrecoVenda,dto.Estoque);
                     contexto.Produtos.Add(produtoASalvar);
                     contexto.SaveChanges();
-                    return Results.Ok(produtoASalvar);
+                    return Results.Created($"/produtos/{produtoASalvar.Id}",produtoASalvar);
                 }
                 catch (Exception ex)
                 {
